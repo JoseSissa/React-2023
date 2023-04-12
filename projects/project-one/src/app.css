@@ -29,4 +29,18 @@
     padding: 6px 16px;
     font-weight: bold;
     cursor: pointer;
+    border: 1px solid #000;
+    transition: .3s ease background-color;
+}
+
+.tw-followCard-button:hover {
+    background-color: rgb(35, 157, 238);
+}
+
+.isFollowing {
+    border: 1px solid rgb(236, 65, 65);
+}
+.isFollowing:hover {
+    background-color: rgb(236, 65, 65);
+    color: #fff;
 }
