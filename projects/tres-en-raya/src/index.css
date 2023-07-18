@@ -79,6 +79,7 @@ body {
   height: 70px;
   pointer-events: none;
   border-color: transparent;
+  padding-bottom: 4px;
 }
 
 .square.is-selected {
