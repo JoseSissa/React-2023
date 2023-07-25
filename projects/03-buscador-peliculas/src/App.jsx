@@ -10,12 +10,20 @@ function App() {
 
   const { mappedMovies } = useMovies()
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(e);
+    console.log(new window.FormData(e.target));
+    console.log(Object.fromEntries(new window.FormData(e.target)));
+    const { query } = Object.fromEntries(new window.FormData(e.target))
+  }
+
   return (
     <>
       <header>
         <h1>Buscador de Películas</h1>
-        <form action="" className="form">
-          <input type="text" placeholder="Avengers, Star Wars ..."/>
+        <form action="" className="form" onSubmit={handleSubmit}>
+          <input name='query' type="text" placeholder="Avengers, Star Wars ..."/>
           <button type="submit">Buscar</button>
         </form>
       </header>
