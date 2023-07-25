@@ -1,4 +1,14 @@
+import './App.css'
+
+
+import { Movies } from './components/Movies/Movies'
+import { useMovies } from './hooks/useMovies'
+
+
+
 function App() {
+
+  const { mappedMovies } = useMovies()
 
   return (
     <>
@@ -11,7 +21,7 @@ function App() {
       </header>
 
       <main>
-
+        <Movies movies={mappedMovies} />
       </main>
     </>
   )
