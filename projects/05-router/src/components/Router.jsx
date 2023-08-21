@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Page404 } from '../pages/404';
 import { EVENTS } from '../const';
+import { match } from 'path-to-regexp';
 
 export function Router ({ routes = [], defaulComponent: DefaulComponent = () => (<Page404 />) }) {
     const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -19,6 +20,20 @@ export function Router ({ routes = [], defaulComponent: DefaulComponent = () => 
         }
     }, [currentPath]);
 
-    const Page = routes.find(elem => elem.path === currentPath)?.component
-    return Page ? <Page /> : <DefaulComponent />
+    let routeParams = {}
+
+    const Page = routes.find(elem => {
+        if(elem.path === currentPath) return true
+
+        const matchUrl = match(elem.path, { decode: decodeURIComponent })
+        const matched = matchUrl(currentPath)
+        if(!matched) return false
+
+        routeParams = matched.params
+        return true
+    })?.component
+
+    return Page 
+        ? <Page routeParams={routeParams} /> 
+        : <DefaulComponent routeParams={routeParams} />
 }
