@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Children } from 'react'
 import { Page404 } from '../pages/404';
 import { EVENTS } from '../const';
 import { match } from 'path-to-regexp';
 
-export function Router ({ routes = [], defaulComponent: DefaulComponent = () => (<Page404 />) }) {
+export function Router ({ children, routes = [], defaulComponent: DefaulComponent = () => (<Page404 />) }) {
     const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
     useEffect(() => {
@@ -15,14 +15,22 @@ export function Router ({ routes = [], defaulComponent: DefaulComponent = () => 
         window.addEventListener(EVENTS.POPSTATE, onLocationChange)
         
         return () => {
-        window.removeEventListener(EVENTS.PUSHSTATE, onLocationChange)
-        window.removeEventListener(EVENTS.POPSTATE, onLocationChange)
+            window.removeEventListener(EVENTS.PUSHSTATE, onLocationChange)
+            window.removeEventListener(EVENTS.POPSTATE, onLocationChange)
         }
     }, [currentPath]);
 
     let routeParams = {}
 
-    const Page = routes.find(elem => {
+    const routesFromChildren = Children.map(children, ({ props, type }) => {
+        const { name } = type
+        const isRoute = name === 'Route'
+        return isRoute ? props : null
+    })
+
+    const routesToUse = routes.concat(routesFromChildren)
+
+    const Page = routesToUse.find(elem => {
         if(elem.path === currentPath) return true
 
         const matchUrl = match(elem.path, { decode: decodeURIComponent })
