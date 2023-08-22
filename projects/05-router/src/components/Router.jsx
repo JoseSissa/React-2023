@@ -22,12 +22,13 @@ export function Router ({ children, routes = [], defaulComponent: DefaulComponen
 
     let routeParams = {}
 
+    // De esta forma obtenemos el path y el componente de cada Route sacados del Children importado de react 
     const routesFromChildren = Children.map(children, ({ props, type }) => {
         const { name } = type
         const isRoute = name === 'Route'
         return isRoute ? props : null
     })
-
+    // Lo concatenamos con las rutas que vienen del componente Router, (el objeto de rutas del App.jsx)
     const routesToUse = routes.concat(routesFromChildren)
 
     const Page = routesToUse.find(elem => {

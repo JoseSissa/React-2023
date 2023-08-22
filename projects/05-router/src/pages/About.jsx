@@ -1,5 +1,5 @@
 import { Link } from "../components/Link"  
-  
+
 export function About () {
     return (
       <>
